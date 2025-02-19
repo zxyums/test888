@@ -1,0 +1,78 @@
+Since you’re using React with Vite, let’s integrate the React Compiler into your Vite project step by step.
+
+Step 1: Install React Compiler Dependencies
+
+Run the following command to install the necessary packages:
+
+npm install -D @react/compiler eslint-plugin-react-compiler
+
+or
+
+yarn add -D @react/compiler eslint-plugin-react-compiler
+
+Step 2: Update vite.config.ts or vite.config.js
+
+Modify your Vite configuration to enable the React Compiler plugin.
+
+Before (Default Vite Config for React)
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+
+After (With React Compiler)
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import reactCompiler from '@react/compiler/vite';
+
+export default defineConfig({
+  plugins: [react(), reactCompiler()],
+});
+
+This enables React Compiler in your Vite build pipeline.
+
+Step 3: Update ESLint Configuration (Optional but Recommended)
+
+To ensure best practices and catch potential issues, add the React Compiler ESLint plugin.
+
+Modify your .eslintrc.js file:
+
+module.exports = {
+  plugins: ['react-compiler'],
+  rules: {
+    'react-compiler/react-compiler': 'error',
+  },
+};
+
+This helps identify potential optimizations directly in your editor.
+
+Step 4: Run Health Check (Optional)
+
+To verify compatibility with the React Compiler, run:
+
+npx @react/compiler-healthcheck
+
+This will analyze your project and warn about incompatible dependencies or incorrect patterns.
+
+Step 5: Test and Debug
+
+After setup:
+	1.	Start the development server:
+
+npm run dev
+
+
+	2.	Check for errors in the console.
+	3.	Inspect performance using React DevTools and check if unnecessary re-renders are eliminated.
+
+Benefits of React Compiler in Vite
+
+✅ Automatic optimizations (No need for useMemo, useCallback, or React.memo).
+✅ Faster builds with Vite’s HMR (Hot Module Replacement).
+✅ Smaller bundle sizes due to tree-shaking improvements.
+
+Let me know if you need help debugging or testing your setup!
