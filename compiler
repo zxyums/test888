@@ -1,12 +1,18 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+Business Statement/Problem Statement:
 
-export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler', { version: 'beta' }]],
-      },
-    }),
-  ],
-});
+Previously, the file upload process in the SSIT Tool was a manual, time-consuming task that took one month to complete. This led to delays, inefficiencies, and a higher risk of errors. The goal was to optimize this process to reduce time, improve accuracy, and enhance overall efficiency.
+
+Solution:
+
+By implementing automated file upload testing, SSO Token validation, progress tracking, and tab functionality enhancements, we have successfully streamlined the process, reducing the total time from one month to just one week, significantly improving efficiency and user experience.
+
+Calculation:
+	•	Before Value: 160 Hrs (1 Month)
+	•	After Value: 40 Hrs (1 Week)
+	•	Effort Saved: 160 - 40 = 120 Hrs
+	•	Annual Effort Saved: 1440 Hrs
+	•	Cost Factor (per unit billing rate): XX USD
+	•	Equivalent Effort USD: 1440 Hrs * Cost Factor
+
+Thanks,
+Uma mahesh
