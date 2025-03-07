@@ -1,18 +1,56 @@
-Business Statement/Problem Statement:
+Total Rule Workflows Identified: 11
 
-Previously, the file upload process in the SSIT Tool was a manual, time-consuming task that took one month to complete. This led to delays, inefficiencies, and a higher risk of errors. The goal was to optimize this process to reduce time, improve accuracy, and enhance overall efficiency.
+Based on the analysis of the images, there are 11 different rule workflows categorized into Rules Approval, Exception Handling, and NetReveal Workflows.
 
-Solution:
+⸻
 
-By implementing automated file upload testing, SSO Token validation, progress tracking, and tab functionality enhancements, we have successfully streamlined the process, reducing the total time from one month to just one week, significantly improving efficiency and user experience.
+Rules Approval Workflows
 
-Calculation:
-	•	Before Value: 160 Hrs (1 Month)
-	•	After Value: 40 Hrs (1 Week)
-	•	Effort Saved: 160 - 40 = 120 Hrs
-	•	Annual Effort Saved: 1440 Hrs
-	•	Cost Factor (per unit billing rate): XX USD
-	•	Equivalent Effort USD: 1440 Hrs * Cost Factor
+1. Rules Workflow - ETS_GES Rule Approval
+	•	Question: What specific criteria determine whether a rule requires GES approval versus other review types?
 
-Thanks,
-Uma mahesh
+2. Rules Workflow - ETS_AML/Other Rule Approval
+	•	Question: How is AML approval different from GES approval in terms of review complexity and compliance requirements?
+
+⸻
+
+Exception Handling Workflows
+
+3. Exception Workflow - ETS_No GES Rule Approval
+	•	Question: If GES is not involved, what additional validations ensure compliance before production deployment?
+
+4. Exception Workflow - ETS_GES_Except App
+	•	Question: What types of exceptions require GES review, and how frequently do they occur?
+
+5. Exception Workflow - ETS_Except AML/Other
+	•	Question: How does the AML exception process differ from standard AML rule approvals?
+
+6. Exception Workflow - ETS_Except GESnAML/Other
+	•	Question: How does handling exceptions involving both GES and AML differ from their individual processes?
+
+7. Exception Workflow - ETS_No_GES_Except App
+	•	Question: What are the primary reasons for rules to bypass GES and go directly for exception approval?
+
+⸻
+
+NetReveal Workflows
+
+8. NetReveal Workflow - GES NetReveal
+	•	Question: What are the key differences between NetReveal rule approvals and standard GES rule approvals?
+
+9. NetReveal Workflow - AML/Other NetReveal
+	•	Question: How do AML-related rules in NetReveal differ from the regular AML rule approval workflow?
+
+10. NetReveal Workflow - GESnAML/Other NetReveal
+	•	Question: If a rule falls under both GES and AML categories, what are the main challenges in processing it?
+
+⸻
+
+
+
+11. General Process-Wide Questions
+	•	Question: What mechanisms are in place to track and audit rule changes across all workflows?
+	•	Question: How often are rule workflows revised based on regulatory changes?
+	•	Question: Is there a need for automation to streamline reviews, reduce rejection rates, and improve efficiency?
+	•	Question: Are there delays or bottlenecks in any specific approval process? If so, how are they managed?
+
