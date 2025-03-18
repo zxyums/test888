@@ -1,56 +1,75 @@
-Total Rule Workflows Identified: 11
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-Based on the analysis of the images, there are 11 different rule workflows categorized into Rules Approval, Exception Handling, and NetReveal Workflows.
+const predefinedData = {
+  ops: [
+    { insert: "This is normal text.\n" },
+    { insert: "This is bold text.\n", attributes: { bold: true } },
+    { insert: "This is italic text.\n", attributes: { italic: true } },
+    { insert: "This is underlined text.\n", attributes: { underline: true } },
+    { insert: "This text has strikethrough.\n", attributes: { strike: true } },
+    { insert: "This is red text.\n", attributes: { color: "#ff0000" } },
+    { insert: "This text has yellow highlight.\n", attributes: { background: "#ffff00" } },
+  ],
+};
 
-⸻
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike"], // Strikethrough support
+    [{ color: [] }, { background: [] }], // Color and highlight
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["blockquote", "code-block"],
+    ["clean"],
+  ],
+};
 
-Rules Approval Workflows
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike", // Strikethrough
+  "color", // Text color
+  "background", // Highlight
+  "list",
+  "bullet",
+  "blockquote",
+  "code-block",
+];
 
-1. Rules Workflow - ETS_GES Rule Approval
-	•	Question: What specific criteria determine whether a rule requires GES approval versus other review types?
+const TextEditorForm = () => {
+  const { handleSubmit, control } = useForm({
+    defaultValues: { ruleConditions: predefinedData }, // Set predefined data
+  });
 
-2. Rules Workflow - ETS_AML/Other Rule Approval
-	•	Question: How is AML approval different from GES approval in terms of review complexity and compliance requirements?
+  const onSubmit = (data) => {
+    console.log("Saved Data:", data.ruleConditions);
+  };
 
-⸻
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <h3>Rule Conditions Editor (Predefined Data)</h3>
 
-Exception Handling Workflows
+      <Controller
+        name="ruleConditions"
+        control={control}
+        render={({ field }) => (
+          <ReactQuill
+            {...field}
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            onChange={(content, delta, source, editor) => field.onChange(editor.getContents())} // Save as JSON Delta
+          />
+        )}
+      />
 
-3. Exception Workflow - ETS_No GES Rule Approval
-	•	Question: If GES is not involved, what additional validations ensure compliance before production deployment?
+      <button type="submit">Save</button>
+    </form>
+  );
+};
 
-4. Exception Workflow - ETS_GES_Except App
-	•	Question: What types of exceptions require GES review, and how frequently do they occur?
-
-5. Exception Workflow - ETS_Except AML/Other
-	•	Question: How does the AML exception process differ from standard AML rule approvals?
-
-6. Exception Workflow - ETS_Except GESnAML/Other
-	•	Question: How does handling exceptions involving both GES and AML differ from their individual processes?
-
-7. Exception Workflow - ETS_No_GES_Except App
-	•	Question: What are the primary reasons for rules to bypass GES and go directly for exception approval?
-
-⸻
-
-NetReveal Workflows
-
-8. NetReveal Workflow - GES NetReveal
-	•	Question: What are the key differences between NetReveal rule approvals and standard GES rule approvals?
-
-9. NetReveal Workflow - AML/Other NetReveal
-	•	Question: How do AML-related rules in NetReveal differ from the regular AML rule approval workflow?
-
-10. NetReveal Workflow - GESnAML/Other NetReveal
-	•	Question: If a rule falls under both GES and AML categories, what are the main challenges in processing it?
-
-⸻
-
-
-
-11. General Process-Wide Questions
-	•	Question: What mechanisms are in place to track and audit rule changes across all workflows?
-	•	Question: How often are rule workflows revised based on regulatory changes?
-	•	Question: Is there a need for automation to streamline reviews, reduce rejection rates, and improve efficiency?
-	•	Question: Are there delays or bottlenecks in any specific approval process? If so, how are they managed?
-
+export default TextEditorForm;
