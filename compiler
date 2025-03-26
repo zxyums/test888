@@ -19,7 +19,7 @@ const PivotAGGrid = () => {
       { field: "City", name: "Alice", value: "Los Angeles" }
     ];
 
-    // Step 2: Define Columns (Pivot Mode & Proper Mapping)
+    // Step 2: Define Columns (Pivot Mode & Proper Configuration)
     const columns = [
       { field: "field", rowGroup: true, headerName: "Field" }, // Ensures Age & City appear as rows
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
@@ -28,7 +28,8 @@ const PivotAGGrid = () => {
         headerName: "Value", // Custom header
         enableValue: true, // Allows values to be displayed
         pivotResultColumn: true, // Ensures pivot data is shown
-        valueFormatter: (params) => params.value ?? "" // Ensures no empty display
+        valueFormatter: (params) => params.value ?? "", // Ensures no empty display
+        suppressAggregation: true // **Prevents AG Grid from removing values**
       }
     ];
 
@@ -47,7 +48,8 @@ const PivotAGGrid = () => {
           defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
           sideBar={true} // Enables Sidebar for Pivot Selection
           groupDisplayType="groupRows" // Ensures proper row grouping
-          suppressAggAtRootLevel={true} // Hides the root-level aggregation
+          autoGroupColumnDef={{ minWidth: 200 }} // Ensures row headers are wide enough
+          suppressAggAtRootLevel={true} // **Hides aggregation row**
         />
       </div>
     </div>
