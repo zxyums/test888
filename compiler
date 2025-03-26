@@ -11,7 +11,7 @@ const PivotAGGrid = () => {
   const [rowData, setRowData] = useState([]);
 
   useEffect(() => {
-    // Step 1: Define the new structured test data
+    // Step 1: Define Data (Row-Based)
     const data = [
       { field: "Age", name: "John", value: 28 },
       { field: "Age", name: "Alice", value: 25 },
@@ -21,14 +21,27 @@ const PivotAGGrid = () => {
 
     // Step 2: Define Columns (Pivot Mode & Aggregation)
     const columns = [
-      { field: "field", rowGroup: true, headerName: "Field" }, // Row grouping for Age/City
-      { field: "name", pivot: true, headerName: "Person" }, // John & Alice become column headers
-      { field: "value", headerName: "Value", aggFunc: "first", enableValue: true }
+      { field: "field", rowGroup: true, headerName: "Field" }, // Ensures Age & City appear as rows
+      { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
+      { field: "value", headerName: "Value", aggFunc: customAggFunc, enableValue: true }
     ];
 
     setRowData(data);
     setColumnDefs(columns);
   }, []);
+
+  // Step 3: Custom Aggregation Function to Handle Mixed Data Types
+  const customAggFunc = (params) => {
+    // If the value is a number, return the first number
+    if (params.values.every(val => typeof val === "number")) {
+      return params.values[0]; // Works fine for Age
+    }
+    // If the value is a string, return the first string
+    if (params.values.every(val => typeof val === "string")) {
+      return params.values[0]; // Works fine for City
+    }
+    return null; // Fallback in case of unexpected data
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
