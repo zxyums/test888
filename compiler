@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import "ag-grid-enterprise"; // Required for AG Grid Enterprise features
+import "ag-grid-enterprise"; // Required for Enterprise features
 
 const PivotAGGrid = () => {
   const gridRef = useRef();
@@ -19,9 +19,9 @@ const PivotAGGrid = () => {
 
     // Step 2: Define Columns (Pivoting and Aggregation)
     const columns = [
-      { field: "name", rowGroup: true }, // This makes "name" a row group (column values become row headers)
+      { field: "name", rowGroup: true }, // Name becomes row headers
       { field: "age", headerName: "Age", aggFunc: "first", enableValue: true },
-      { field: "city", headerName: "City", aggFunc: "first", enableValue: true }
+      { field: "city", headerName: "City", aggFunc: "first", enableValue: true } // Added City as a Value
     ];
 
     setRowData(data);
@@ -30,13 +30,12 @@ const PivotAGGrid = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      {/* AG Grid Container with Dynamic Height */}
       <div className="ag-theme-alpine" style={{ flexGrow: 1, width: "100%" }}>
         <AgGridReact
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
-          pivotMode={true} // Enables Pivot Mode (columns as rows)
+          pivotMode={true} // Enables Pivot Mode
           defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
           sideBar={true} // Enables Sidebar for Pivot Selection
           gridOptions={{ domLayout: "autoHeight" }} // Ensures height adapts to content
