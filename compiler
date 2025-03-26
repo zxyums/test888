@@ -19,7 +19,7 @@ const PivotAGGrid = () => {
 
     // Step 2: Define Columns (Pivot Mode)
     const columns = [
-      { field: "name", pivot: true }, // Pivot "Name" into columns instead of grouping
+      { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
       { field: "age", headerName: "Age", aggFunc: "first", enableValue: true },
       { field: "city", headerName: "City", aggFunc: "first", enableValue: true }
     ];
