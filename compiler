@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -12,16 +12,17 @@ const PivotAGGrid = () => {
 
   const columnDefs = [
     { field: "name", pivot: true }, // Set name as pivot (acts as row headers)
-    { field: "age", aggFunc: "first" },
-    { field: "city", aggFunc: "first" }
+    { field: "age", headerName: "Age", aggFunc: "first" },
+    { field: "city", headerName: "City", aggFunc: "first" }
   ];
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
+    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}
         pivotMode={true} // Enable Pivot Mode
+        defaultColDef={{ flex: 1, sortable: true, filter: true }}
       />
     </div>
   );
