@@ -23,7 +23,13 @@ const PivotAGGrid = () => {
     const columns = [
       { field: "field", rowGroup: true, headerName: "Field" }, // Ensures Age & City appear as rows
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
-      { field: "value", headerName: "Value", aggFunc: customAggFunc, enableValue: true }
+      {
+        field: "value",
+        headerName: "Value", // Custom header (Removes func(value))
+        aggFunc: customAggFunc,
+        enableValue: true,
+        valueFormatter: (params) => params.value || "" // Prevents "Invalid Number" display
+      }
     ];
 
     setRowData(data);
