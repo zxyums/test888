@@ -27,6 +27,7 @@ const PivotAGGrid = () => {
         headerName: "Field",
         showRowGroup: true, // Ensures correct grouping
         suppressCount: true, // **REMOVES (2) from Age & City**
+        valueFormatter: (params) => params.value, // **Ensures clean display**
       },
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
       {
@@ -37,7 +38,7 @@ const PivotAGGrid = () => {
         aggFunc: "first", // **Prevents extra labels like "first(Value)"**
         suppressAggFuncInHeader: true, // **REMOVES "first(Value)" from header**
         headerValueGetter: () => "Value", // **Ensures a clean column name**
-        valueFormatter: (params) => params.value ?? "", // **Prevents empty values**
+        valueFormatter: (params) => (params.value !== undefined ? params.value : ""), // **Prevents empty values**
       }
     ];
 
