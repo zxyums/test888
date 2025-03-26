@@ -19,17 +19,17 @@ const PivotAGGrid = () => {
       { field: "City", name: "Alice", value: "Los Angeles" }
     ];
 
-    // Step 2: Define Columns (Pivot Mode & Auto-Add Values)
+    // Step 2: Define Columns (Ensures Values Appear Automatically)
     const columns = [
-      { field: "field", rowGroup: true, headerName: "Field" }, // Ensures Age & City appear as rows
+      { field: "field", rowGroup: true, headerName: "Field" }, // Row group for Age/City
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
       {
         field: "value",
-        headerName: "Value", // Custom header
-        enableValue: true, // Ensures values appear
-        pivotResultColumn: true, // Forces pivoted data to be displayed
-        aggFunc: "first", // Ensures first value is shown for each field
-        valueFormatter: (params) => (params.value ? params.value : ""), // Ensures no empty display
+        headerName: "Value", // Custom header (Ensures values display)
+        enableValue: true, // Ensures values appear under John & Alice
+        pivotResultColumn: true, // Ensures pivoted data is displayed
+        aggFunc: "first", // Ensures correct aggregation of data
+        valueFormatter: (params) => params.value ?? "", // Prevents empty display
       }
     ];
 
