@@ -11,17 +11,19 @@ const PivotAGGrid = () => {
   const [rowData, setRowData] = useState([]);
 
   useEffect(() => {
-    // Step 1: Define Data (Row-Based)
+    // Step 1: Define the new structured test data
     const data = [
-      { name: "John", age: 28, city: "New York" },
-      { name: "Alice", age: 25, city: "Los Angeles" }
+      { field: "Age", name: "John", value: 28 },
+      { field: "Age", name: "Alice", value: 25 },
+      { field: "City", name: "John", value: "New York" },
+      { field: "City", name: "Alice", value: "Los Angeles" }
     ];
 
-    // Step 2: Define Columns (Pivot Mode)
+    // Step 2: Define Columns (Pivot Mode & Aggregation)
     const columns = [
-      { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
-      { field: "age", headerName: "Age", aggFunc: "first", enableValue: true },
-      { field: "city", headerName: "City", aggFunc: "first", enableValue: true }
+      { field: "field", rowGroup: true, headerName: "Field" }, // Row grouping for Age/City
+      { field: "name", pivot: true, headerName: "Person" }, // John & Alice become column headers
+      { field: "value", headerName: "Value", aggFunc: "first", enableValue: true }
     ];
 
     setRowData(data);
@@ -38,7 +40,7 @@ const PivotAGGrid = () => {
           pivotMode={true} // Enables Pivot Mode
           defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
           sideBar={true} // Enables Sidebar for Pivot Selection
-          gridOptions={{ domLayout: "autoHeight" }} // Ensures height adapts to content
+          groupDisplayType="groupRows" // Ensures proper row grouping
         />
       </div>
     </div>
