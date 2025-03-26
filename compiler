@@ -25,20 +25,19 @@ const PivotAGGrid = () => {
         field: "field",
         rowGroup: true,
         headerName: "Field",
-        showRowGroup: true, // Ensures grouping is correct
-        suppressCount: true, // **Removes (2) from Age & City**
-        valueFormatter: (params) => params.value, // **Ensures clean display**
+        showRowGroup: true, // Ensures correct grouping
+        suppressCount: true, // **REMOVES (2) from Age & City**
       },
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
       {
         field: "value",
-        headerName: "Value", // **Forces a clean "Value" header**
-        enableValue: true, // Ensures values appear
-        pivotResultColumn: true, // Forces pivoted data to be displayed
-        aggFunc: "first", // Ensures correct aggregation of data
-        suppressAggFuncInHeader: true, // **Removes "first(Value)"**
-        headerValueGetter: () => "Value", // **Forces clean "Value" header**
-        valueFormatter: (params) => params.value ?? "", // Ensures no empty display
+        headerName: "Value", // **Ensures a clean "Value" header**
+        enableValue: true, // Allows values to be displayed
+        pivotResultColumn: true, // Ensures pivoted data is visible
+        aggFunc: "first", // **Prevents extra labels like "first(Value)"**
+        suppressAggFuncInHeader: true, // **REMOVES "first(Value)" from header**
+        headerValueGetter: () => "Value", // **Ensures a clean column name**
+        valueFormatter: (params) => params.value ?? "", // **Prevents empty values**
       }
     ];
 
@@ -57,7 +56,7 @@ const PivotAGGrid = () => {
           defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
           sideBar={true} // Enables Sidebar for Pivot Selection
           autoGroupColumnDef={{ minWidth: 200 }} // Ensures row headers are wide enough
-          suppressAggAtRootLevel={true} // Hides aggregation row
+          suppressAggAtRootLevel={true} // **Removes extra aggregation row**
         />
       </div>
     </div>
