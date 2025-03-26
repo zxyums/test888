@@ -17,11 +17,11 @@ const PivotAGGrid = () => {
       { name: "Alice", age: 25, city: "Los Angeles" }
     ];
 
-    // Step 2: Define Columns (Pivoting and Aggregation)
+    // Step 2: Define Columns (Pivot Mode)
     const columns = [
-      { field: "name", rowGroup: true }, // Name becomes row headers
+      { field: "name", pivot: true }, // Pivot "Name" into columns instead of grouping
       { field: "age", headerName: "Age", aggFunc: "first", enableValue: true },
-      { field: "city", headerName: "City", aggFunc: "first", enableValue: true } // Added City as a Value
+      { field: "city", headerName: "City", aggFunc: "first", enableValue: true }
     ];
 
     setRowData(data);
