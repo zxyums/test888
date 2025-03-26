@@ -32,13 +32,13 @@ const PivotAGGrid = () => {
       { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
       {
         field: "value",
-        headerName: "Value", // Custom header
+        headerName: "Value", // **Forces a clean "Value" header**
         enableValue: true, // Ensures values appear
         pivotResultColumn: true, // Forces pivoted data to be displayed
         aggFunc: "first", // Ensures correct aggregation of data
         suppressAggFuncInHeader: true, // **Removes "first(Value)"**
         headerValueGetter: () => "Value", // **Forces clean "Value" header**
-        valueFormatter: (params) => (params.value !== undefined ? params.value : ""), // Ensures no empty display
+        valueFormatter: (params) => params.value ?? "", // Ensures no empty display
       }
     ];
 
