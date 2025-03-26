@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import "ag-grid-enterprise"; // Enable enterprise features
+import "ag-grid-enterprise"; // Required for AG Grid Enterprise features
 
 const PivotAGGrid = () => {
-  const rowData = [
-    { name: "John", age: 28, city: "New York" },
-    { name: "Alice", age: 25, city: "Los Angeles" }
-  ];
+  const [columnDefs, setColumnDefs] = useState([]);
+  const [rowData, setRowData] = useState([]);
 
-  const columnDefs = [
-    { field: "name", pivot: true }, // Set name as pivot (acts as row headers)
-    { field: "age", headerName: "Age", aggFunc: "first" },
-    { field: "city", headerName: "City", aggFunc: "first" }
-  ];
+  useEffect(() => {
+    // Step 1: Define Original Data (Row-Based)
+    const data = [
+      { name: "John", age: 28, city: "New York" },
+      { name: "Alice", age: 25, city: "Los Angeles" }
+    ];
+
+    // Step 2: Define Columns (with Pivot & Aggregation)
+    const columns = [
+      { field: "name", pivot: true }, // Name will be converted to columns (John, Alice)
+      { field: "age", headerName: "Age", aggFunc: "first" }, // These become rows
+      { field: "city", headerName: "City", aggFunc: "first" }
+    ];
+
+    setRowData(data);
+    setColumnDefs(columns);
+  }, []);
 
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
@@ -22,7 +32,8 @@ const PivotAGGrid = () => {
         rowData={rowData}
         columnDefs={columnDefs}
         pivotMode={true} // Enable Pivot Mode
-        defaultColDef={{ flex: 1, sortable: true, filter: true }}
+        defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
+        sideBar={true} // Enable Sidebar for Pivot Selection
       />
     </div>
   );
