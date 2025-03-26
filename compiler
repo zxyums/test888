@@ -1,75 +1,30 @@
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-enterprise"; // Enable enterprise features
 
-const predefinedData = {
-  ops: [
-    { insert: "This is normal text.\n" },
-    { insert: "This is bold text.\n", attributes: { bold: true } },
-    { insert: "This is italic text.\n", attributes: { italic: true } },
-    { insert: "This is underlined text.\n", attributes: { underline: true } },
-    { insert: "This text has strikethrough.\n", attributes: { strike: true } },
-    { insert: "This is red text.\n", attributes: { color: "#ff0000" } },
-    { insert: "This text has yellow highlight.\n", attributes: { background: "#ffff00" } },
-  ],
-};
+const PivotAGGrid = () => {
+  const rowData = [
+    { name: "John", age: 28, city: "New York" },
+    { name: "Alice", age: 25, city: "Los Angeles" }
+  ];
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike"], // Strikethrough support
-    [{ color: [] }, { background: [] }], // Color and highlight
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["blockquote", "code-block"],
-    ["clean"],
-  ],
-};
-
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike", // Strikethrough
-  "color", // Text color
-  "background", // Highlight
-  "list",
-  "bullet",
-  "blockquote",
-  "code-block",
-];
-
-const TextEditorForm = () => {
-  const { handleSubmit, control } = useForm({
-    defaultValues: { ruleConditions: predefinedData }, // Set predefined data
-  });
-
-  const onSubmit = (data) => {
-    console.log("Saved Data:", data.ruleConditions);
-  };
+  const columnDefs = [
+    { field: "name", pivot: true }, // Set name as pivot (acts as row headers)
+    { field: "age", aggFunc: "first" },
+    { field: "city", aggFunc: "first" }
+  ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h3>Rule Conditions Editor (Predefined Data)</h3>
-
-      <Controller
-        name="ruleConditions"
-        control={control}
-        render={({ field }) => (
-          <ReactQuill
-            {...field}
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            onChange={(content, delta, source, editor) => field.onChange(editor.getContents())} // Save as JSON Delta
-          />
-        )}
+    <div className="ag-theme-alpine" style={{ height: 400, width: 600 }}>
+      <AgGridReact
+        rowData={rowData}
+        columnDefs={columnDefs}
+        pivotMode={true} // Enable Pivot Mode
       />
-
-      <button type="submit">Save</button>
-    </form>
+    </div>
   );
 };
 
-export default TextEditorForm;
+export default PivotAGGrid;
