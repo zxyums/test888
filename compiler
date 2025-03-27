@@ -2,49 +2,70 @@ import React, { useState, useEffect, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import "ag-grid-enterprise"; // Required for Enterprise features
+import "ag-grid-enterprise"; // ✅ Required for all enterprise features
 
-const PivotAGGrid = () => {
+const EnterpriseAGGrid = () => {
   const gridRef = useRef();
 
   const [columnDefs, setColumnDefs] = useState([]);
   const [rowData, setRowData] = useState([]);
 
   useEffect(() => {
-    // Step 1: Define Data (Row-Based)
+    // ✅ Normal tabular JSON data (Backend-style format)
     const data = [
-      { field: "Age", name: "John", value: 28 },
-      { field: "Age", name: "Alice", value: 25 },
-      { field: "City", name: "John", value: "New York" },
-      { field: "City", name: "Alice", value: "Los Angeles" }
+      { id: 1, name: "John", age: 28, city: "New York", country: "USA" },
+      { id: 2, name: "Alice", age: 25, city: "Los Angeles", country: "USA" },
+      { id: 3, name: "Bob", age: 30, city: "London", country: "UK" },
+      { id: 4, name: "Eve", age: 27, city: "Berlin", country: "Germany" }
     ];
 
-    // Step 2: Define Columns (Final Fix Applied)
+    // ✅ Column Definitions - Plain structure
     const columns = [
-      {
-        field: "field",
-        rowGroup: true,
-        headerName: "Field",
-        showRowGroup: true, // Ensures correct grouping
-        suppressCount: true, // **REMOVES (2) from Age & City**
-        valueFormatter: (params) => params.value, // **Ensures clean display**
-      },
-      { field: "name", pivot: true, headerName: "Person" }, // Pivot "Name" into columns
-      {
-        field: "value",
-        headerName: "Value", // **Ensures a clean "Value" header**
-        enableValue: true, // Allows values to be displayed
-        pivotResultColumn: true, // Ensures pivoted data is visible
-        aggFunc: "first", // **Prevents extra labels like "first(Value)"**
-        suppressAggFuncInHeader: true, // **REMOVES "first(Value)" from header**
-        headerValueGetter: () => "Value", // **Ensures a clean column name**
-        valueFormatter: (params) => (params.value !== undefined ? params.value : ""), // **Prevents empty values**
-      }
+      { field: "id", headerName: "ID", enableRowGroup: true, enablePivot: true },
+      { field: "name", headerName: "Name", enableRowGroup: true, enablePivot: true },
+      { field: "age", headerName: "Age", enableRowGroup: true, enablePivot: true },
+      { field: "city", headerName: "City", enableRowGroup: true, enablePivot: true },
+      { field: "country", headerName: "Country", enableRowGroup: true, enablePivot: true }
     ];
 
     setRowData(data);
     setColumnDefs(columns);
   }, []);
+
+  // ✅ Custom Right-Click Context Menu for Full Enterprise Features
+  const getContextMenuItems = (params) => {
+    const column = params.column;
+    if (!column) return [];
+
+    return [
+      {
+        name: `Group By "${column.getColDef().headerName}"`,
+        action: () => {
+          gridRef.current.columnApi.addRowGroupColumn(column.getColId());
+        },
+        disabled: column.getColDef().rowGroup, // Disable if already grouped
+      },
+      {
+        name: `Un-Group "${column.getColDef().headerName}"`,
+        action: () => {
+          gridRef.current.columnApi.removeRowGroupColumn(column.getColId());
+        },
+        disabled: !column.getColDef().rowGroup, // Disable if not grouped
+      },
+      "separator",
+      "sortAscending",
+      "sortDescending",
+      "separator",
+      "copy",
+      "paste",
+      "separator",
+      "export",
+      "chartRange", // ✅ Enables charting from right-click
+      "resetColumns", // ✅ Allows resetting columns
+      "expandAll",
+      "contractAll",
+    ];
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -53,15 +74,31 @@ const PivotAGGrid = () => {
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
-          pivotMode={true} // Enables Pivot Mode
-          defaultColDef={{ flex: 1, sortable: true, filter: true, resizable: true }}
-          sideBar={true} // Enables Sidebar for Pivot Selection
-          autoGroupColumnDef={{ minWidth: 200 }} // Ensures row headers are wide enough
-          suppressAggAtRootLevel={true} // **Removes extra aggregation row**
+          defaultColDef={{
+            flex: 1,
+            sortable: true,
+            filter: true,
+            resizable: true,
+            floatingFilter: true, // ✅ Enables floating filters
+            enableRowGroup: true, // ✅ Allows row grouping
+            enablePivot: true, // ✅ Enables pivoting
+            enableValue: true, // ✅ Enables aggregation
+          }}
+          sideBar={{
+            position: "left", // ✅ Moves sidebar to the left
+            toolPanels: ["columns", "filters"], // ✅ Includes columns & filters
+          }}
+          enableCharts={true} // ✅ Enables charting
+          enableRangeSelection={true} // ✅ Allows range selection
+          suppressAggAtRootLevel={true} // ✅ Removes extra aggregation row
+          rowGroupPanelShow="always" // ✅ Always show group panel
+          pivotPanelShow="always" // ✅ Always show pivot panel
+          allowContextMenuWithControlKey={true} // ✅ Allows right-click + Control for default menu
+          getContextMenuItems={getContextMenuItems} // ✅ Custom right-click menu
         />
       </div>
     </div>
   );
 };
 
-export default PivotAGGrid;
+export default EnterpriseAGGrid;
